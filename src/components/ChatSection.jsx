@@ -5,15 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Send, Bot, User, Sprout, Cloud, Bug, Leaf, Droplets, Sun } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-interface Message {
-  id: string;
-  content: string;
-  isUser: boolean;
-  timestamp: Date;
-}
-
 const ChatSection = () => {
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState([
     {
       id: "1",
       content: "Hello! I'm your AI farming assistant. I can help you with crop diseases, weather advice, soil management, and more. What would you like to know?",
@@ -23,7 +16,7 @@ const ChatSection = () => {
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef(null);
   const { toast } = useToast();
 
   const scrollToBottom = () => {
@@ -43,7 +36,7 @@ const ChatSection = () => {
     { icon: Sprout, text: "Planting recommendations", category: "planting" },
   ];
 
-  const simulateAIResponse = (userMessage: string) => {
+  const simulateAIResponse = (userMessage) => {
     setIsTyping(true);
     
     // Simulate AI processing time
@@ -65,7 +58,7 @@ const ChatSection = () => {
         response = "That's a great farming question! While I can provide general guidance, I recommend consulting with local agricultural extension services for region-specific advice. Is there a particular aspect of farming you'd like me to focus on - like crops, livestock, or equipment?";
       }
       
-      const newMessage: Message = {
+      const newMessage = {
         id: Date.now().toString(),
         content: response,
         isUser: false,
@@ -80,7 +73,7 @@ const ChatSection = () => {
   const handleSendMessage = () => {
     if (input.trim() === "") return;
 
-    const userMessage: Message = {
+    const userMessage = {
       id: Date.now().toString(),
       content: input,
       isUser: true,
@@ -97,11 +90,11 @@ const ChatSection = () => {
     });
   };
 
-  const handleQuickQuestion = (question: string) => {
+  const handleQuickQuestion = (question) => {
     setInput(question);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
